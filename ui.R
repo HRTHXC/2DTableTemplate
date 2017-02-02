@@ -19,9 +19,6 @@ ui <- fluidPage(
   ),
   ## Access file as input$upload_file$datapath inside a reactive element in server.R
   fileInput("upload_file", "Upload CSV file"),
-  # fluidRow(
-  #   p(class = 'text-center', downloadButton('x9', 'Print data'))
-  # ),
   selectizeInput('tableFilter', "Omit BrCrCodes", choices = NULL, multiple = TRUE),
   actionButton('clearOmission', "Clear omissions"),
   h2('Combination data output'),

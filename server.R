@@ -28,6 +28,8 @@
 # }
 # Error: object 'variableTwo' not found
 
+# To remove a comment in RStudio, highlight desired rows and use keyboard command CTRL+Shift+C. It toggles too!
+
 # I hope this is useful enough for you to make your own apps from this template!
 # Harrison Crane, PFR Summer Student 2016/17, Te Puke branch
 
@@ -97,10 +99,15 @@ shinyServer(function(input, output, session) {
     spaceCheck <- str_count(testParents$BrCrCode, ' ')
     testParents <- cleanBrCrCodeInFile(testParents, slashCount, underscoreCount, spaceCheck)
     
+    ##REPLACE Planted etc. WITH YOUR COLUMN NAMES, COPY AND ADD MORE OF THESE IF YOU LIKE
+    
     # #we must make these columns contents as numeric, otherwise we cannot perform math on them
     # testParents$Planted <- as.numeric(testParents$Planted)
     # testParents$PsaDeaths <- as.numeric(testParents$PsaDeaths)
     # testParents$nonPsa <- as.numeric(testParents$nonPsa)
+    
+    ##HERE IS WHERE YOU ADD YOUR DESIRED FORMULAS FOR CALCULATING RESULTS
+    
     # #calculate the rate of survival from PSA for each unique row in the table 
     # testParents$survivalrate <- format(round((value = 100 - ((testParents$PsaDeaths / (testParents$Planted - testParents$nonPsa) ) * 100)), 2), nsmall = 2)
     
@@ -109,6 +116,9 @@ shinyServer(function(input, output, session) {
   
   # overallSurvival <- function(testParents){
   #   #rounding the survival rate to 2dp for readability purposes
+  
+  ##HERE IS WHERE YOU ADD YOUR DESIRED FORMULAS FOR CALCULATING RESULTS
+  
   #   overallSurvival <- format(round( 100 - ((sum(as.numeric(testParents$PsaDeaths)) / sum(as.numeric(testParents$Planted - testParents$nonPsa))) * 100), 2), nsmall = 2)
   #   return(overallSurvival)
   # }
@@ -166,6 +176,9 @@ shinyServer(function(input, output, session) {
     
     # y$MotherCode <- y$FatherCode <- y$survivalrate <- NULL
     # put your calculation in survivalrate or suitable variable name, remember to change the variables to suit what calculation yo uwant to make
+    
+    ##HERE IS WHERE YOU ADD YOUR DESIRED FORMULAS FOR CALCULATING RESULTS (area where it's commented on the line, keep in mind you'll have to a right bracket next to the hash before you remove the hash)
+    
     y <- mutate(aggregate(cbind(as.numeric(Planted), as.numeric(nonPsa), as.numeric(PsaDeaths)) ~ BrCrCode, data = y, FUN = sum))#, survivalrate = round((100 - (PsaDeaths / (Planted - nonPsa)) * 100), 2))
     
     return(y)
@@ -183,6 +196,8 @@ shinyServer(function(input, output, session) {
     #we make the table for either mother or father table output
     parentTable$BrCrCode <- parentCode
     parentTable <- aggregate(cbind(as.numeric(Planted), as.numeric(nonPsa), as.numeric(PsaDeaths)) ~ BrCrCode, data = parentTable, FUN = sum)
+    
+    ##HERE IS WHERE YOU ADD YOUR DESIRED FORMULAS FOR CALCULATING RESULTS
     
     # parentTable <- mutate(parentTable, survivalrate = round((100 - (PsaDeaths / (Planted - nonPsa)) * 100), 2))
     
@@ -228,6 +243,8 @@ shinyServer(function(input, output, session) {
         if(grepl(paste("^", testParentsVerbaitum$BrCrCode[n], "$", sep=""), testParents$BrCrCode[i])){
           #if the planted total for a plant (excluding those dying of nonPsa causes) is less than 40, we must tag it to show it's less than the statistical signifcant baseline when we print it out to the table (survival rate), if not, just print it out to the table (survival rate) 
           
+          ##PRINT OUT TO THE 2D TABLE, REMOVE FROM IFELSE CAUSE IF YOU WANT NO TAGGING
+          
           # ifelse((testParentsVerbaitum$Planted[n] - testParentsVerbaitum$nonPsa[n]) < 40, (twoDtable[motherCodeFound, fatherCodeFound] = paste(testParentsVerbaitum$survivalrate[n], "STS", sep = " ")), (twoDtable[motherCodeFound, fatherCodeFound] = testParentsVerbaitum$survivalrate[n]))
           
           break;
@@ -244,6 +261,8 @@ shinyServer(function(input, output, session) {
     #drops unneeded columns and masks brcrcodes with counts for certain special characters, to clean the codes into a single way of input (XX_123) in the best we can
     testParents <- cleanFile(dat)
     
+    ##REMOVE COMMENT HERE OVERALLSURVIVAL
+    
     #each rows survival rate is calculated
     # overallSurvival <- overallSurvival(testParents)
     
@@ -255,6 +274,8 @@ shinyServer(function(input, output, session) {
     testParentsVerbaitum <- verbatimSanity(testParentsVerbaitum)
     #we use the global rowCount variable to check for when we omit everything
     rowCount <<- length(testParentsVerbaitum$BrCrCode)
+    
+    ##OPTIONAL STATSTICAL ANALYSIS OUTPUT. OPTIONAL, BUT YOU MUST CHANGE VARIABLE NAMES
     
     # #synopsis of the data inputted
     # output$overallStats <- renderText(paste("In this block, ", sum(testParents$Planted), " plants were planted, and ", sum(testParents$PsaDeaths), " plants surcumb to PSA disease. ", sum(testParents$nonPsa), " individual plants died of non PSA related issues. This is a survival rate of ~", overallSurvival, "%", sep = ""))
