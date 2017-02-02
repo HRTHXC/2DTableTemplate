@@ -12,7 +12,7 @@
 # survivalRate <- 100 - (PsaDeaths / (Planted - nonPsa) * 100)
 # In general, see those lines where mutate() or aggregate() are occuring, and change them dependent of your column names.
 
-# I get an error!
+# "I get an error!"
 
 # 'sum' not meaningful for factors:
 # If you are dealing with numbers, R will treat them by default as a vector. You can do math with a vector. Bound your
